@@ -5,6 +5,7 @@ from .serializer import sumkaSerializer, universitySerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
@@ -27,6 +28,11 @@ from rest_framework import generics
 class ListQuestionView(generics.ListAPIView):
     queryset=university.objects.all()
     serializer_class=universitySerializer
+    permission_classes=(IsAuthenticated,)
+
+    def get_queryset(self):
+        print(self.request.user)
+        return university.objects.all()
 
 # def detail(request, forid):
 #     some = get_object_or_404(sumka, id=forid)
@@ -79,6 +85,11 @@ class createLeastQuestionLIST(generics.ListCreateAPIView):
 class GetAllSumka(generics.ListAPIView):
     queryset=sumka.objects.all()
     serializer_class=sumkaSerializer
+    permission_classes=(IsAuthenticated,)
+
+    def get_queryset(self):
+        print(self.request.user)
+        return sumka.objects.all()
 
 class GetDetailSumka(generics.RetrieveAPIView):
     queryset = sumka.objects.all()
